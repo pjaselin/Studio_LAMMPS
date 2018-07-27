@@ -124,7 +124,7 @@ ui <- fluidPage(
   h1(span("Studio", style = "font-weight: 300"), "LAMMPS", 
      style = "font-family: 'Source Sans Pro';
         color: #fff; text-align: center;
-        background-image: url('http://tardis.mat.rpi.edu:8787/files/CMD_Project/StudioLAMMPs/bgtexturered.jpg');
+        background-image: url('bgtexturered.jpg');
         padding: 20px"),
   br(),
    
