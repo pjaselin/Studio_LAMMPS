@@ -27,3 +27,7 @@ There are several key objectives fulfilled by Studio LAMMPS:
     * Tensile test
     * Diffusion
     * Phase change and spinodal decomposition
+
+## References
+
+Note this code was initially developed as a solo course project for MTLE-4500: Computational Materials Design at Rensselaer Polytechnic Insitute under Dr. Liping Huang.
