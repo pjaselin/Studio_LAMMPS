@@ -4,12 +4,17 @@ Studio LAMMPS is an educational tool, built as an R Shiny application, that enab
 
 A secondary innovation, produced in the course of this project, is that LAMMPS has now been exposed to the R universe, introducing an entirely new computational environment for the MD package.
 
+
+![screenshot of start page](/markdown/FullScreen.png)
+
+
 ### Table of Contents
 **[Motivation, Objectives](#motivation)**<br>
 **[Technology Stack](#technology-stack)**<br>
-**[Notes and Miscellaneous](#notes-and-miscellaneous)**<br>
-**[Building the Extension Bundles](#building-the-extension-bundles)**<br>
-**[Next Steps, Credits, Feedback, License](#next-steps)**<br>
+**[Software Design](#software-design)**<br>
+**[Installation, Requirements, Shiny Server Setup](#installation)**<br>
+**[Current Status](#current-status)**<br>
+**[Future Work](#future-work)**<br>
 
 ## Motivation
 This code was initially developed as a course project for MTLE-4500: Computational Materials Design, taught by Dr. Liping Huang at Rensselaer Polytechnic Insitute in Troy, NY. The purpose at the onset was to develop an educational software to introduce MD simulations and that could replace Java applets currently available online. The primary concern with present solutions is that few modern browsers allow Java (i.e. Chrome, Safari, MS Edge) and it can be challenging to configure Internet Explorer to run them. Additionally, since these applets were developed years ago and haven't been regularly maintained, there are questions as to whether these will be available in the future let alone whether students' computers will be compatible. 
@@ -36,7 +41,7 @@ With the knowledge of the Python wrapper to LAMMPS, it seemed possible to develo
   - R Plotly package for interactive plotting in the Shiny app: https://plot.ly/r/
   - R Shiny Server for hosting the app: https://www.rstudio.com/products/shiny/shiny-server/ 
 
-## Design/Functionality
+## Software Design
 At the onset of this project there were certain objectives
 There are a number of peculiarities with this application
 
@@ -56,14 +61,6 @@ There are several key technologies that are taken advantage of:
   - R Shiny UI framework
 LAMMPS <-> Python <-> R <-> Shiny UI
 
-## Objectives
-There are several key objectives fulfilled by Studio LAMMPS:
-  - Replaces Java applets that demonstrate rudimentary MD simulations (future-proofing and security advantages)
-  - Total customization of LAMMPS simulations towards learning outcomes
-  - Application is completely standalone, stores nothing locally, all calculations and data are stored in memory
-  - Interactive inputs to LAMMPS simulations with measured results visualized
-
-## Operation/Functionality
 
 ## Installation
 ### Requirements
