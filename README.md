@@ -4,14 +4,13 @@ Studio LAMMPS is an educational tool, built as an R Shiny application, that enab
 
 A secondary innovation, produced in the course of this project, is that LAMMPS has now been exposed to the R universe, introducing an entirely new computational environment for the MD package.
 
-
 ![screenshot of start page](/markdown/FullScreen.png)
-
 
 ### Table of Contents
 **[Motivation, Objectives](#motivation)**<br>
 **[Technology Stack](#technology-stack)**<br>
 **[Software Design](#software-design)**<br>
+**[How to Customize](#how-to-customize)**<br>
 **[Installation, Requirements, Shiny Server Setup](#installation)**<br>
 **[Current Status](#current-status)**<br>
 **[Future Work](#future-work)**<br>
@@ -42,6 +41,8 @@ With the knowledge of the Python wrapper to LAMMPS, it seemed possible to develo
   - R Shiny Server for hosting the app: https://www.rstudio.com/products/shiny/shiny-server/ 
 
 ## Software Design
+While the vast majority of the code required for this application (save a few helper functions) can reside in a single file, there are four layers present in this code: the LAMMPS engine at the backend, the Python wrapper interfacing with LAMMPS, R running the Python wrapper via the Reticulate package, and Shiny providing the graphical interface.
+
 At the onset of this project there were certain objectives
 There are a number of peculiarities with this application
 
@@ -52,7 +53,7 @@ In terms of hosting the application on a Shiny Server, there are several conside
 
 What is unique to this kind of application is that it can be placed on a Shiny Server and with the correct 
 
-
+![script comparison](/markdown/ScriptComparison.png)
 
 There are several key technologies that are taken advantage of: 
   - LAMMPS as a highly optimized and validated MD engine
@@ -64,23 +65,30 @@ LAMMPS <-> Python <-> R <-> Shiny UI
 
 ## Installation
 ### Requirements
+LAMMPS installation
+lammps shared library install to /lib/
+Python wrapper install sudo level
 ### Shiny Server Setup
+install shiny server and move files in
 
-## Customization
+## How to Customize
 ### Learning Hurdles
 developing LAMMPS scripts
 accessing LAMMPS data in Python depending upon type
 reading this data into R
+###
+editing code
 
 ## Current Status
 
 ## Future Work 
   - Change Shiny app layout into Shinydashboard
   - Improve plot formatting, especially velocity histogram
-  - Instead of enumerating options, create multiple types of simulations and provide unique interactivity upon these:
+  - Instead of enumerating options, create multiple types of simulations and provide unique features for these:
     * Crystal structure explorer
     * Tensile test
     * Diffusion
-    * Phase change and spinodal decomposition
+    * Phase change
+    * Spinodal decomposition
   - Parallel processing
   - Look into using pymatgen for new modules
