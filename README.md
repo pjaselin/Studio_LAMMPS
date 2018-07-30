@@ -8,7 +8,7 @@ A secondary innovation, produced in the course of this project, is that LAMMPS h
 
 ### Table of Contents
 **[Motivation, Objectives](#motivation)**<br>
-**[Technology Stack](#technology-stack)**<br>
+**[Technologies Involved](#technologies-involved)**<br>
 **[Software Design](#software-design)**<br>
 **[How to Customize](#how-to-customize)**<br>
 **[Installation, Requirements, Shiny Server Setup](#installation)**<br>
@@ -31,16 +31,23 @@ With the knowledge of the Python wrapper to LAMMPS, it seemed possible to develo
 -	The architecture should be designed in such a way that allows future developers to produce custom experiences.
 -	Plots should be interactive and provide time series animations.
 
-## Technology Stack
+## Technologies Involved
   - LAMMPS: http://lammps.sandia.gov/
   - Python and C-level wrappers for LAMMPS: https://lammps.sandia.gov/doc/Section_python.html
   - Python NumPy library: http://www.numpy.org/
   - R Reticulate package to run Python in R: https://rstudio.github.io/reticulate/
   - R Shiny package for UI and server-behaviors: https://shiny.rstudio.com/
-  - R Plotly package for interactive plotting in the Shiny app: https://plot.ly/r/
-  - R Shiny Server for hosting the app: https://www.rstudio.com/products/shiny/shiny-server/ 
+  - R Plotly package for interactive plotting: https://plot.ly/r/
+  - R Shiny Server for app hosting: https://www.rstudio.com/products/shiny/shiny-server/ 
 
 ## Software Design
+Application presently consists of three files:
+- app.R: Main application file
+- lammps_helper.py: Python function for reading RDF data with C-level LAMMPS-Python wrapper
+- www/bgtexturered.png: Background image for header
+
+There are four main layers in this software: the LAMMPS engine at the backend, the Python wrapper interfacing with LAMMPS, R running the Python wrapper via the Reticulate package, and Shiny providing the graphical interface. While the vast majority of the app.R code is dedicated to Shiny interactivity, 
+
 While the vast majority of the code required for this application (save a few helper functions) can reside in a single file, there are four layers present in this code: the LAMMPS engine at the backend, the Python wrapper interfacing with LAMMPS, R running the Python wrapper via the Reticulate package, and Shiny providing the graphical interface.
 
 At the onset of this project there were certain objectives
