@@ -2,8 +2,6 @@
 
 Studio LAMMPS is an educational tool, built as an R Shiny application, that enables interactive control of LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator: http://lammps.sandia.gov/). By leveraging the power of LAMMPS as a proven research tool, a powerful interactive experience has been developed for students to explore key concepts in chemistry, physics, and materials science through molecular dynamics (MD) simulations without requiring an understanding of the underlying simulation script. With this framework, educators can develop LAMMPS simulations that are representative of important topics, convert them into the format used in this app, and add Shiny interactive inputs in a way that allows students to engage and explore the content while ensuring that the simulations remain feasible.
 
-A secondary innovation, produced in the course of this project, is that LAMMPS has now been exposed to the R universe, introducing an entirely new computational environment for the MD package.
-
 ![screenshot of start page](/markdown/FullScreen.png)
 
 ### Table of Contents
@@ -33,7 +31,7 @@ With the knowledge of the Python wrapper to LAMMPS, it seemed possible to develo
 
 ## Technologies Involved
   - LAMMPS: http://lammps.sandia.gov/
-  - Python and C-level wrappers for LAMMPS: https://lammps.sandia.gov/doc/Section_python.html
+  - Python wrapper class for Python and C-level control of LAMMPS: https://lammps.sandia.gov/doc/Section_python.html
   - Python NumPy library: http://www.numpy.org/
   - R Reticulate package to run Python in R: https://rstudio.github.io/reticulate/
   - R Shiny package for UI and server-behaviors: https://shiny.rstudio.com/
@@ -41,34 +39,38 @@ With the knowledge of the Python wrapper to LAMMPS, it seemed possible to develo
   - R Shiny Server for app hosting: https://www.rstudio.com/products/shiny/shiny-server/ 
 
 ## Software Design
-Application presently consists of three files:
+N.B.: It is assumed that developers have a working knowledge of LAMMPS, have studied the Python wrapper to LAMMPS, and are willing to learn the R Shiny framework. For the latter two, reading the available documentation and playing around with the code should be quite enlightening.
+
+The application presently consists of three files:
 - app.R: Main application file
 - lammps_helper.py: Python function for reading RDF data with C-level LAMMPS-Python wrapper
 - www/bgtexturered.png: Background image for header
 
-There are four main layers in this software: the LAMMPS engine at the backend, the Python wrapper interfacing with LAMMPS, R running the Python wrapper via the Reticulate package, and Shiny providing the graphical interface. While the vast majority of the app.R code is dedicated to Shiny interactivity, 
+There are four layers in this software: the LAMMPS engine at the backend, the Python wrapper interfacing with LAMMPS, R running the Python wrapper via the Reticulate package, and R Shiny providing the graphical interface. This ordering is the direction in which the software was developed. Beginning with a functional LAMMPS script, the Python wrapper was fully explored with the ability to access data out of the LAMMPS instance. When it was found that it might be difficult to develop a Python web app, the R Reticulate package was used to convert the Python scripts to R. Finally the web app with its interactive control of the LAMMPS commands and visuals were created using R Shiny.
 
-While the vast majority of the code required for this application (save a few helper functions) can reside in a single file, there are four layers present in this code: the LAMMPS engine at the backend, the Python wrapper interfacing with LAMMPS, R running the Python wrapper via the Reticulate package, and Shiny providing the graphical interface.
+### Application Flow
+1. User makes desired simulation settings.
+2. User pressed the "Submit to LAMMPS" button.
+3. Desired settings are passed to placeholder variables in the LAMMPS script.
+4. LAMMPS is launched and runs in steps of 1/20 of the total simulation time.
+5. At every step, the helper functions are used to read desired data out of the simulation and store this in data frames in memory.
+6. At the end of the simulation, LAMMPS is closed.
+7. The data is passed back to the user in the form of visualization and is made available for download as a CSV.
 
-At the onset of this project there were certain objectives
-There are a number of peculiarities with this application
-
-What may be unusual is that because this is an R Shiny app, it does not run on a desktop, but instead runs on a server. For those familiar with R and RStudio, it can be run out of RStudio locally for a single user and only temporarily. However, when the application is hosted on a Shiny Server with the necessary packages installed and shared libraries correctly placed, it can be accessed at a web address by anyone on the same network as the hosting server.
-
-In terms of hosting the application on a Shiny Server, there are several considerations. When someone accesses the Shiny app, a separate R thread is created for each user. This may cause a number of issues depending upon the scale of the simulations possible, the available resources on the server computer, and the number of users that may connect.
-
-
-What is unique to this kind of application is that it can be placed on a Shiny Server and with the correct 
-
+### LAMMPS Scripts
+Comparing how these scripts look:
 ![script comparison](/markdown/ScriptComparison.png)
+The native LAMMPS script on the left is the simple 3D Lennard-Jones melting simulation as provided in the LAMMPS example files. 
 
-There are several key technologies that are taken advantage of: 
-  - LAMMPS as a highly optimized and validated MD engine
-  - Python and C-level wrappers for LAMMPS
-  - Reticulate R package to run Python in R
-  - R Shiny UI framework
-LAMMPS <-> Python <-> R <-> Shiny UI
+In the Python script version, the first peculiarity to note is how a lammps() class (C-level LAMMPS-Python wrapper) is defined and then wrapped with a PyLammps() class (Python-level LAMMPS-Python wrapper). Since Python classes work with LAMMPS in different ways, they each store their own sets of data. By using them together, users can access nearly nearly all data produced during the simulation, while using the fastest means possible to read this information (its better to read coordinate, RDF, MSD data from C-level and simulation data at the Python-level). Also, note that in Python, the LAMMPS commands become Python class methods.
 
+In the R script version and because of the Reticulate package, the new code looks much like the Python script, replacing the periods with the extract symbol ($). Unlike the Python script, LAMMPS commands cannot take a comma-separated values and instead require these lists to be contained within a paste function, passing a string to the command. Also note that R does not interpret integer values in the same way as Python. Thus, R interprets the value 1 as 1.0 and not as an integer. To ensure that a value is passed as an integer, the command as.integer(1) should be used or by appending L (1L) after the number (as.integer() should be preferred when using placeholder variables for interactivity).
+
+### Reading Data from LAMMPS
+At the beginning of the app.R file as well as the lammps_helper.py file, functions are created to read data from LAMMPS using the Python wrappers. The methods implemented here are largely covered in the LAMMPS documentation. Note that the C-level Python wrapper (lmp) is used to quickly read atom coordinates, velocities, types, ids, MSD, and RDF, while the Python-level Python wrapper (L) is used to access time step # and all data stored by the LAMMPS thermo_style command. Also note that when reading data from the C-level as presently done, the data read are the current values whereas in using the Python-level wrapper as implemented, the last element is the new piece of data.
+
+### Enabling Interactivity to LAMMPS
+Interactivity is introduced when placeholder variables are inserted into the LAMMPS commands, thus creating a parameter that can be changed based upon a Shiny input. See the previous section about implementing the LAMMPS script in R for more notes on this. From the app.R code, it can be seen that a high degree of interactivity can be introduced by adding if statements, choosing certain commands based upon inputs and thus changing the type of simulation.
 
 ## Installation
 ### Requirements
@@ -88,8 +90,9 @@ editing code
 
 ## Current Status
 
+
 ## Future Work 
-  - Change Shiny app layout into Shinydashboard
+  - Change Shiny app layout into Shinydashboard (v2)
   - Improve plot formatting, especially velocity histogram
   - Instead of enumerating options, create multiple types of simulations and provide unique features for these:
     * Crystal structure explorer
