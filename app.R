@@ -2,6 +2,8 @@
 # 
 # Author: github.com/pjaselin
 # Last revision date: 7/30/2018
+# Version: 1.2
+# License: GPLv3
 # 
 # Description: Main Studio LAMMPS application file that defines all the
 # software's behavior
@@ -24,8 +26,6 @@
 #
 
 
-
-
 ## Required R library imports
 library(shiny) # web app framework
 library(plotly) # interactive plotting
@@ -39,6 +39,9 @@ source_python("lammps_helper.py")
 np <- import("numpy")
 lammps <- import("lammps")
 
+
+#####################
+# Helper functions to read data out of LAMMPS
 
 accumulate_by <- function(dat, var) {
   # function to collect data frames by time frame in order
