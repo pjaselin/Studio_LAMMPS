@@ -64,21 +64,26 @@ The native LAMMPS script on the left is the simple 3D Lennard-Jones melting simu
 
 In the Python script version, the first peculiarity to note is how a lammps() class (C-level LAMMPS-Python wrapper) is defined and then wrapped with a PyLammps() class (Python-level LAMMPS-Python wrapper). Since Python classes work with LAMMPS in different ways, they each store their own sets of data. By using them together, users can access nearly nearly all data produced during the simulation, while using the fastest means possible to read this information (its better to read coordinate, RDF, MSD data from C-level and simulation data at the Python-level). Also, note that in Python, the LAMMPS commands become Python class methods.
 
-In the R script version and because of the Reticulate package, the new code looks much like the Python script, replacing the periods with the extract symbol ($). Unlike the Python script, LAMMPS commands cannot take a comma-separated values and instead require these lists to be contained within a paste function, passing a string to the command. Also note that R does not interpret integer values in the same way as Python. Thus, R interprets the value 1 as 1.0 and not as an integer. To ensure that a value is passed as an integer, the command as.integer(1) should be used or by appending L (1L) after the number (as.integer() should be preferred when using placeholder variables for interactivity).
+In the R script version and because of the Reticulate package, the new code looks much like the Python script, replacing the periods with the extract symbol ($). Unlike the Python script, LAMMPS commands cannot take a comma-separated values and instead require these lists to be contained within a paste function, passing a string to the command. Also note that R does not interpret integer values in the same way as Python. Thus, R interprets the value 1 as 1.0 and not as an integer. To ensure that a value is passed as an integer, the command as.integer(1) should be used or by appending the letter L (1L) after the number (as.integer() is preferred when using placeholder variables for interactivity and if integers are passed in the LAMMPS commands, they can written as strings (i.e."1")).
 
 ### Reading Data from LAMMPS
 At the beginning of the app.R file as well as the lammps_helper.py file, functions are created to read data from LAMMPS using the Python wrappers. The methods implemented here are largely covered in the LAMMPS documentation. Note that the C-level Python wrapper (lmp) is used to quickly read atom coordinates, velocities, types, ids, MSD, and RDF, while the Python-level Python wrapper (L) is used to access time step # and all data stored by the LAMMPS thermo_style command. Also note that when reading data from the C-level as presently done, the data read are the current values whereas in using the Python-level wrapper as implemented, the last element is the new piece of data.
 
 ### Enabling Interactivity to LAMMPS
-Interactivity is introduced when placeholder variables are inserted into the LAMMPS commands, thus creating a parameter that can be changed based upon a Shiny input. See the previous section about implementing the LAMMPS script in R for more notes on this. From the app.R code, it can be seen that a high degree of interactivity can be introduced by adding if statements, choosing certain commands based upon inputs and thus changing the type of simulation.
+Interactivity is introduced when placeholder variables are inserted into the LAMMPS commands, thus creating a parameter that can be changed based upon a Shiny input. See the previous section about implementing the LAMMPS script in R for more notes on this and look at the implemented LAMMPS code where the server side of the app stores all simulation data in the "results" variable. From the app.R code, it can be seen that a high degree of interactivity can be introduced by adding if statements, choosing certain commands based upon inputs and thus changing the type of simulation.
 
 ## Installation
 ### Requirements
-LAMMPS installation
-lammps shared library install to /lib/
-Python wrapper install sudo level
+- Install LAMMPS (GitHub method recommended): https://lammps.sandia.gov/download.html
+- Enable optional packages as desired: https://lammps.sandia.gov/doc/Section_start.html
+- Build LAMMPS as a shared library: https://lammps.sandia.gov/doc/Section_python.html#py-3
+- Install Python wrapper as a system and personal library: https://lammps.sandia.gov/doc/Section_python.html#py-4
+- Copy LAMMPS shared library to /lib/
+
 ### Shiny Server Setup
-install shiny server and move files in
+_ Install Shiny Server: https://www.rstudio.com/products/shiny/download-server/
+- Place the files that comprised Studio LAMMPS in a folder using the same structure as here
+- Place this folder under /srv/shiny-server/ (i.e. /srv/shiny-server/StudioLAMMPS: app.r, lammps_helper.py, www/bgtexturered.png)
 
 ## How to Customize
 ### Learning Hurdles
