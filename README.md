@@ -81,7 +81,7 @@ Interactivity is introduced when placeholder variables are inserted into the LAM
 - Copy LAMMPS shared library to /lib/
 
 ### Shiny Server Setup
-_ Install Shiny Server: https://www.rstudio.com/products/shiny/download-server/
+- Install Shiny Server: https://www.rstudio.com/products/shiny/download-server/
 - Place the files that comprised Studio LAMMPS in a folder using the same structure as here
 - Place this folder under /srv/shiny-server/ (i.e. /srv/shiny-server/StudioLAMMPS: app.r, lammps_helper.py, www/bgtexturered.png)
 
