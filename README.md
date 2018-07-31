@@ -39,18 +39,18 @@ With the knowledge of the Python wrapper to LAMMPS, it seemed possible to develo
   - R Shiny Server for app hosting: https://www.rstudio.com/products/shiny/shiny-server/ 
 
 ## Software Design
-N.B.: It is assumed that developers have a working knowledge of LAMMPS, have studied the Python wrapper to LAMMPS, and are willing to learn the R Shiny framework. For the latter two, reading the available documentation and playing around with the code should be quite enlightening.
-
 The application presently consists of three files:
 - app.R: Main application file
 - lammps_helper.py: Python function for reading RDF data with C-level LAMMPS-Python wrapper
-- www/bgtexturered.png: Background image for header
+- /www/bgtexturered.png: Background image for header
 
 There are four layers in this software: the LAMMPS engine at the backend, the Python wrapper interfacing with LAMMPS, R running the Python wrapper via the Reticulate package, and R Shiny providing the graphical interface. This ordering is the direction in which the software was developed. Beginning with a functional LAMMPS script, the Python wrapper was fully explored with the ability to access data out of the LAMMPS instance. When it was found that it might be difficult to develop a Python web app, the R Reticulate package was used to convert the Python scripts to R. Finally the web app with its interactive control of the LAMMPS commands and visuals were created using R Shiny.
 
+N.B.: It is assumed that developers have a working knowledge of LAMMPS, have studied the Python wrapper to LAMMPS, and are willing to learn the R Shiny framework. For the latter two, reading the available documentation and playing around with the code should be quite enlightening.
+
 ### Application Flow
 1. User makes desired simulation settings.
-2. User pressed the "Submit to LAMMPS" button.
+2. User presses the "Submit to LAMMPS" button.
 3. Desired settings are passed to placeholder variables in the LAMMPS script.
 4. LAMMPS is launched and runs in steps of 1/20 of the total simulation time.
 5. At every step, the helper functions are used to read desired data out of the simulation and store this in data frames in memory.
@@ -60,6 +60,7 @@ There are four layers in this software: the LAMMPS engine at the backend, the Py
 ### LAMMPS Scripts
 Comparing how these scripts look:
 ![script comparison](/markdown/ScriptComparison.png)
+
 The native LAMMPS script on the left is the simple 3D Lennard-Jones melting simulation as provided in the LAMMPS example files. 
 
 In the Python script version, the first peculiarity to note is how a lammps() class (C-level LAMMPS-Python wrapper) is defined and then wrapped with a PyLammps() class (Python-level LAMMPS-Python wrapper). Since Python classes work with LAMMPS in different ways, they each store their own sets of data. By using them together, users can access nearly nearly all data produced during the simulation, while using the fastest means possible to read this information (its better to read coordinate, RDF, MSD data from C-level and simulation data at the Python-level). Also, note that in Python, the LAMMPS commands become Python class methods.
@@ -82,7 +83,7 @@ Interactivity is introduced when placeholder variables are inserted into the LAM
 - Enable optional packages as desired: https://lammps.sandia.gov/doc/Section_start.html
 - Build LAMMPS as a shared library: https://lammps.sandia.gov/doc/Section_python.html#py-3
 - Install Python wrapper as a system and personal library: https://lammps.sandia.gov/doc/Section_python.html#py-4
-- Copy LAMMPS shared library to /lib/
+- Copy LAMMPS shared library to the system /lib/ directory.
 
 ### Shiny Server Setup
 - Install Shiny Server: https://www.rstudio.com/products/shiny/download-server/
