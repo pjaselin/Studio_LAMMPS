@@ -72,6 +72,10 @@ At the beginning of the app.R file as well as the lammps_helper.py file, functio
 ### Enabling Interactivity to LAMMPS
 Interactivity is introduced when placeholder variables are inserted into the LAMMPS commands, thus creating a parameter that can be changed based upon a Shiny input. See the previous section about implementing the LAMMPS script in R for more notes on this and look at the implemented LAMMPS code where the server side of the app stores all simulation data in the "results" variable. From the app.R code, it can be seen that a high degree of interactivity can be introduced by adding if statements, choosing certain commands based upon inputs and thus changing the type of simulation.
 
+### Unique Features
+- 2d Atoms jump across boundaries
+- data download
+
 ## Installation
 ### Requirements
 - Install LAMMPS (GitHub method recommended): https://lammps.sandia.gov/download.html
@@ -94,7 +98,7 @@ reading this data into R
 editing code
 
 ## Current Status
-
+Working with some bugs in terms of feasible simulation options (overextended)
 
 ## Future Work 
   - Change Shiny app layout into Shinydashboard (v2)
