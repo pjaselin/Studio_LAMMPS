@@ -83,7 +83,7 @@ Interactivity is introduced when placeholder variables are inserted into the LAM
 - Enable optional packages as desired: https://lammps.sandia.gov/doc/Section_start.html
 - Build LAMMPS as a shared library: https://lammps.sandia.gov/doc/Section_python.html#py-3
 - Install Python wrapper as a system and personal library: https://lammps.sandia.gov/doc/Section_python.html#py-4
-- Copy LAMMPS shared library to the system /lib/ directory.
+- Copy LAMMPS shared library (liblammps.so) to the system /lib/ directory.
 
 ### Shiny Server Setup
 - Install Shiny Server: https://www.rstudio.com/products/shiny/download-server/
