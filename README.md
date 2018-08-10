@@ -8,10 +8,11 @@ Studio LAMMPS is an educational tool, built as an R Shiny application, that enab
 **[Motivation, Objectives](#motivation)**<br>
 **[Technologies Involved](#technologies-involved)**<br>
 **[Software Design](#software-design)**<br>
-**[How to Customize](#how-to-customize)**<br>
 **[Installation, Requirements, Shiny Server Setup](#installation)**<br>
+**[How to Customize](#how-to-customize)**<br>
 **[Current Status](#current-status)**<br>
 **[Future Work](#future-work)**<br>
+**[Support](#support)**<br>
 
 ## Motivation
 This code was first developed as a course project for MTLE-4500: Computational Materials Design, taught by Dr. Liping Huang at Rensselaer Polytechnic Insitute in Troy, NY. The purpose at the onset was to develop an educational software to introduce MD simulations and that could replace Java applets currently available online. The primary concern with present solutions is that few modern browsers allow Java (i.e. Chrome, Safari, MS Edge) and it can be challenging to configure Internet Explorer to run them. Additionally, since these applets were developed years ago and haven't been regularly maintained, there are questions as to whether these will be available in the future let alone whether students' computers will be compatible. 
