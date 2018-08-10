@@ -74,8 +74,10 @@ At the beginning of the app.R file as well as the lammps_helper.py file, functio
 Interactivity is introduced when placeholder variables are inserted into the LAMMPS commands, thus creating a parameter that can be changed based upon a Shiny input. See the previous section about implementing the LAMMPS script in R for more notes on this and look at the implemented LAMMPS code where the server side of the app stores all simulation data in the "results" variable. From the app.R code, it can be seen that a high degree of interactivity can be introduced by adding if statements, choosing certain commands based upon inputs and thus changing the type of simulation.
 
 ### Unique Features
-- 2d Atoms jump across boundaries
-- data download
+There are several unique features this application provides:
+- In Plotly visualizations of 2D simulation boxes and at boundaries, atoms do not disappear and reappear at the matching boundary at the opposite side of the box. Instead, they slide across the screen, wrapping around to the corresponding boundary. This makes it easy to understand and track atoms moving across periodic boundaries.
+- Since all data in the simulation is stored in memory, it can be downloaded to a local computer as a CSV for further analysis.
+- Plotly allows for PNG's of graphs to be downloaded, making it easy for students to complete homework assignments and lab reports (less memory involved with PNG's of graphs rather than Excel graphs).
 
 ## Installation
 ### Requirements
@@ -88,18 +90,22 @@ Interactivity is introduced when placeholder variables are inserted into the LAM
 ### Shiny Server Setup
 - Install Shiny Server: https://www.rstudio.com/products/shiny/download-server/
 - Place the files that comprised Studio LAMMPS in a folder using the same structure as here
-- Place this folder under /srv/shiny-server/ (i.e. /srv/shiny-server/StudioLAMMPS: app.r, lammps_helper.py, www/bgtexturered.png)
+- Place this repository under /srv/shiny-server/ (i.e. /srv/shiny-server/StudioLAMMPS/: app.r, lammps_helper.py, www/bgtexturered.png)
 
 ## How to Customize
 ### Learning Hurdles
-developing LAMMPS scripts
-accessing LAMMPS data in Python depending upon type
-reading this data into R
-###
-editing code
+Before embarking on developing new teaching modules, it is necessary to understand how native LAMMPS scripts translate into R Reticulate scripts along with a working knowledge of Shiny. Between these two sides of the program, understanding how to access desired data from LAMMPS to store in R data frames can be quite tricky and may require a great deal of sandboxing to nail down.
+
+### Procedure for Creating New Modules
+- Develop the native LAMMPS script and identify which values are to be manipulated
+- Convert the LAMMPS script to Python and ensure that the script still works (some additions may be necessary i.e. the command "atom_modify map array" is necessary in order to read atom coordinates)
+- Determine the appropriate Python wrapper means of accessing data from LAMMPS
+- Convert the Python-LAMMPS script to R Reticulate and convert the Python wrapper communications to R (it may be necessary to write some of these in native Python and access those functions in R)
+- Implement the R Reticulate LAMMPS scripts in the application along with the functions to read data from LAMMPS every few iterations.
+- Add plots and other visualizations as necessary
 
 ## Current Status
-Working with some bugs in terms of feasible simulation options (overextended)
+Unfortunately there are several bugs with the ranges of parameters currently available, causing LAMMPS to crash. This is really the result of overextending the code and doing too much (opening a Pandora's box). The immediate next step will be changing the format into a Shinydashboard or similar layout to provide a nicer design and cleaner way to add more features/configurations.
 
 ## Future Work 
   - Change Shiny app layout into Shinydashboard (v2)
@@ -112,3 +118,6 @@ Working with some bugs in terms of feasible simulation options (overextended)
     * Spinodal decomposition
   - Parallel processing
   - Look into using pymatgen for new modules
+
+## Support
+If anyone is looking to implement this code on a server for education, I'm sure you'll run into issues. Hopefully these explanations should get you pretty far, but some troubleshooting is inevitable. It is my hope that this can develop into a mostly contained (yet still customizable) educational package to replace and improve upon the Java applets out there. Suggestions are also welcome!
