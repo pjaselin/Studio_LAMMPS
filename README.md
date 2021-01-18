@@ -82,11 +82,8 @@ There are several unique features this application provides:
 
 ## Installation
 ### Requirements
-- Install LAMMPS (GitHub method recommended): https://lammps.sandia.gov/download.html
-- Enable optional packages as desired: https://lammps.sandia.gov/doc/Section_start.html
-- Build LAMMPS as a shared library: https://lammps.sandia.gov/doc/Section_python.html#py-3
-- Install Python wrapper as a system and personal library: https://lammps.sandia.gov/doc/Section_python.html#py-4
-- Copy LAMMPS shared library (liblammps.so) from the lammps/src/ directory to the system /lib/ directory.
+- Install LAMMPS (Docker image recommended): https://hub.docker.com/r/lammps/lammps
+
 
 ### Shiny Server Setup
 - Install Shiny Server: https://www.rstudio.com/products/shiny/download-server/
